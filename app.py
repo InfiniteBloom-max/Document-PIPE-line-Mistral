@@ -72,12 +72,14 @@ def initialize_session_state():
         st.session_state.conversation_history = []
     if 'vector_store' not in st.session_state:
         st.session_state.vector_store = VectorStore()
-    if 'qa_system' not in st.session_state:
-        st.session_state.qa_system = QASystem()
     if 'citation_system' not in st.session_state:
         st.session_state.citation_system = CitationSystem()
     if 'document_processor' not in st.session_state:
         st.session_state.document_processor = DocumentProcessor()
+    if 'mistral_api_key' not in st.session_state:
+        st.session_state.mistral_api_key = "GtJJSeLN4KB2ZSHRiFW4mPwjeIIOUfG2"
+    if 'qa_system' not in st.session_state:
+        st.session_state.qa_system = QASystem(api_key=st.session_state.mistral_api_key)
 
 def display_header():
     """Display the main header."""
@@ -86,6 +88,23 @@ def display_header():
 
 def display_sidebar():
     """Display sidebar with system information and controls."""
+    # API Key Configuration
+    st.sidebar.header("🔑 API Configuration")
+    
+    new_api_key = st.sidebar.text_input(
+        "Mistral API Key",
+        value=st.session_state.mistral_api_key,
+        type="password",
+        help="Enter your Mistral API key. Default key is provided for testing."
+    )
+    
+    if new_api_key != st.session_state.mistral_api_key:
+        st.session_state.mistral_api_key = new_api_key
+        st.session_state.qa_system = QASystem(api_key=new_api_key)
+        st.rerun()
+    
+    st.sidebar.markdown("---")
+    
     st.sidebar.header("🔧 System Status")
     
     # API Status
