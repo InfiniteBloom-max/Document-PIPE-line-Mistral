@@ -78,7 +78,7 @@ streamlit run app.py --server.port 12000 --server.address 0.0.0.0
 
 # Configuration 
 
--- Environment Variables
+Environment Variables
 - `MISTRAL_API_KEY` : you Mistral AI API key (needed)
 
 ### Adjustable settings 
